@@ -1,33 +1,75 @@
 # GCP
 
-## Google Cloud Platform Fundamentals: Core Infrastructure
+## GCP Design
 
-### Introducing Google Cloud Platform
-- GCP = Compute + Storage + Networking + BigData + Machine Learning
-- Cloud Computing = On-Demand + Broad Network Access + Resource Pooling + Elasticity + Measured Services (-Pay per use-)
-- History -> Future = On Perm -> Virtual -> Serverless
-- Compute = (Managed Infra) <- Compute Engine (-IaaS-) - Kubernetes Engine (-Hybrid-) - App Engine (-PaaS-) - Cloud Functions (-Serverless-) - Managed Services (-Automated Elastic Resource-) -> (Dynamic Infra)
-- Global -> Multi Region -> Region (-Each region separated by 160KM/100Miles-) -> Zones (-Think of them as separate facilities-)
+### Introduction
+
+- **GCP**: Compute + Storage + Networking + BigData + Machine Learning
+- **Cloud Computing**: On-Demand + Broad Network Access + Resource Pooling + Elasticity + Measured Services (_Pay per use_)
+- **History `<->` Future**: On Perm `->` Virtual `->` Serverless
+- **Compute**: (Managed Infra) `<-` Compute Engine (_IaaS_) `-` Kubernetes Engine (_Hybrid_) `-` App Engine (_PaaS_) `-` Cloud Functions (_Serverless_) `-` Managed Services (_Automated Elastic Resource_) `->` (Dynamic Infra)
 - Environmental Concerns - 0 Carbon Emission and 100% Renewable Energy
-- Pricing Innovation - Pay by second, Sustained Use discount, Cutomize compute resources or use out of box
-- Built on --OpenAPIs-- like kubernetes, Hadoop, Apache HBase which are opensource
-- Encryption at Rest, In  Transition, DDoS, Google Frontend Test for Vulnerablilities
+- Encryption at Rest, In Transition, DDoS, Google Frontend Test for Vulnerablilities
+- Built on **OpenAPIs** like kubernetes, Hadoop, Apache HBase which are opensource
+
+### Physical Infrastructure
+
+Global System (_Internet_) `->` Points of Presence (_Edge Locations and CDNs_)
+`->` Global (_Private Global Network_)
+`->` Multi Region
+`->` Region (_Each region separated by 160KM/100Miles_)
+`->` Zones (_Think of them as separate facilities_)
+`->` Datacenters
+`->` Rack
+`->` Physical Server
+`->` vCPU (**2vCPU = 1 core**)
 
 ### Cloud Platform Hierarchy
-- Compute Resources, IAM, least privilige, raw compute to managed services, access using web console/cli-tools/iOS/Android/APIs
-- Resources are allocated based on --PROJECTS-- which can be grouped under --FOLDERS--
-- Organization Nodes -> Folders (-It is must to have org node to create folders-) -> Projects -> GCP Resources
-  - Policies are inherited from top (eg. Org node), with more generous of them taking precedence (-consider it binary OR of access level-)
+
+- Organization Nodes `->` Folders (_It is must to have org node to create folders_) `->` Projects `->` GCP Resources
+  - Policies are inherited from top (eg. Org node), with more generous of them taking precedence (_consider it binary OR of access level_)
   - Org node can be create by using Cloud Identity
-  - [?] -Billing is per project basis-
+  - Billing is per project basis
+- Compute Resources, IAM, least privilige, raw compute to managed services, access using web console/cli-tools/iOS/Android/APIs
+- Resources are allocated based on **PROJECTS** which can be grouped under **FOLDERS**
+
+### Network Ingress and Egress
+
+- **Normal Network**: Routes via internet to edge location _closets to destination_, available at _lower price_
+- **Google**: Routes so traffic enters from @edge _closest to source_
+  - Single global IP address and loadbalance worldwide
+  - _AWS only supports Normal network_
+
+### Pricing
+
+- **Network Traffic**: Ingress Free, Egress charged per GB
+  - _egress to a gcp service in a region is sometimes free_
+- **Services**: Usage, Provisioned
+- **Discounts**: Pay by second, Sustained Use discount, Cutomize compute resources or use out of box
+
+### Security
+
+- Seperation of duties
+- Encryption at rest, in transition even within gcp network, DDoS, Google Frontend Test for Vulnerablilities
+- _Recommends: Distrust the network_
+
+## Useful commands
+
+```sh
+# Project Quota
+gcloud compute project-info describe --project <project-id>
+```
 
 ## Resources
 
 ### GCP Context
+
 - [Google's Tools](https://en.wikipedia.org/wiki/Google_Data_Centers#Software)
 - [Site Reliability Engineering (SRE) Book](https://landing.google.com/sre/book.html)
 - [Interview with Lynn Langit](https://read.acloud.guru/serverless-superheroes-lynn-langit-on-big-data-nosql-and-google-versus-aws-f4427dc8679c)
+
 ### GCP Design and Structure
+
 - [Data Center Tour #1](https://www.youtube.com/watch?v=XZmGGAbHqa0)
 - [Data Center Tour #2 (360 Degree)](https://www.youtube.com/watch?v=zDAYZU4A3w0)
 - [Regions Map](https://cloud.google.com/about/locations/#regions-tab)
@@ -40,7 +82,9 @@
 - [GCP Security Design](https://cloud.google.com/security/security-design/)
 - [Summary article on SRE Principles](https://medium.com/@jdavidmitchell/principles-of-site-reliability-engineering-at-google-8382b054e498)
 - [Resource Quotas (Soft Limits)](https://cloud.google.com/compute/quotas)
+
 ### Compute
+
 - [Compute Engine (GCE)](https://cloud.google.com/compute/)
   - [Creating Instances](https://cloud.google.com/compute/docs/instances/create-start-instance)
   - [Preemptible Instances](https://cloud.google.com/compute/docs/instances/create-start-preemptible-instance)
@@ -49,7 +93,9 @@
 - [Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine/)
 - [App Engine (GAE)](https://cloud.google.com/appengine/)
 - [Cloud Functions (GCF)](https://cloud.google.com/functions/)
+
 ### Storage, DB, and Transfer
+
 - [Local SSD](https://cloud.google.com/compute/docs/disks/#localssds)
 - [Persistent Disk](https://cloud.google.com/persistent-disk/)
 - [Cloud SQL](https://cloud.google.com/sql/)
@@ -65,7 +111,9 @@
 - [Making Data Public](https://cloud.google.com/storage/docs/access-control/making-data-public)
 - [Data Transfer Appliance](https://cloud.google.com/transfer-appliance/)
 - [Storage Transfer Service](https://cloud.google.com/storage/transfer/)
+
 ### Networking
+
 - [Google Domains](https://domains.google/#/)
 - [Cloud DNS](https://cloud.google.com/dns/)
 - [Static IPs](https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address)
@@ -77,7 +125,9 @@
 - [Dedicated Interconnect](https://cloud.google.com/interconnect/docs/details/dedicated)
 - [Cloud Router](https://cloud.google.com/router/docs/)
 - [CDN Interconnect](https://cloud.google.com/interconnect/docs/how-to/cdn-interconnect)
+
 ### Machine Learning / AI
+
 - [Cloud Machine Learning Engine](https://cloud.google.com/ml-engine/)
 - [My Coke Rewards Case Study](https://developers.googleblog.com/2017/09/how-machine-learning-with-tensorflow.html)
 - [Cloud Vision API](https://cloud.google.com/vision/)
@@ -88,7 +138,9 @@
 - [Cloud Video Intelligence API](https://cloud.google.com/video-intelligence/)
 - [Cloud Job Discovery](https://cloud.google.com/job-discovery/)
 - [Prediction API (Deprecated)](https://cloud.google.com/prediction/docs/end-of-life-faq)
+
 ### Big Data and IoT
+
 - [Big Data Lifecycle](https://cloud.google.com/solutions/data-lifecycle-cloud-platform)
 - [Cloud Internet of Things (IoT) Core](https://cloud.google.com/iot-core/)
 - [Cloud Pub/Sub](https://cloud.google.com/pubsub/)
@@ -101,7 +153,9 @@
 - [Jupyter Notebook](https://jupyter.org/)
 - [Cloud Data Studio](https://cloud.google.com/data-studio/)
 - [Cloud Genomics](https://cloud.google.com/genomics/)
+
 ### Identity and Security
+
 - [GCP Security Overview](https://cloud.google.com/security/)
 - [Roles](https://cloud.google.com/iam/docs/understanding-roles)
 - [Cloud Identity and Access Management (IAM)](https://cloud.google.com/iam/)
@@ -116,7 +170,9 @@
 - [Cloud Identity-Aware Proxy (IAP)](https://cloud.google.com/iap/)
 - [Cloud Security Scanner](https://cloud.google.com/security-scanner/)
 - [Cloud Data Loss Prevention (DLP) API](https://cloud.google.com/dlp/)
+
 ### Operations and Management
+
 - [Google Stackdriver](https://cloud.google.com/stackdriver/)
 - [Stackdriver Chargeable Resources](https://cloud.google.com/stackdriver/pricing#chargeable-resources)
 - [Stackdriver Monitoring](https://cloud.google.com/monitoring/)
@@ -125,12 +181,16 @@
 - [Stackdriver Trace](https://cloud.google.com/trace/)
 - [Stackdriver Debugger](https://cloud.google.com/debugger/)
 - [Cloud Deployment Manager](https://cloud.google.com/deployment-manager/)
+
 ### Billing and Budget
+
 - [Cloud Billing API](https://cloud.google.com/billing/docs/)
 - [GCP Docs on Billing Export to BigQuery](https://cloud.google.com/billing/docs/how-to/export-data-bigquery)
 - [GCP Docs on Budgets and Billing Alerts](https://cloud.google.com/billing/docs/how-to/budgets)
 - [Billing Access Docs](https://cloud.google.com/billing/docs/how-to/billing-access)
+
 ### Development, Deployment and APIs
+
 - [Cloud Source Repositories](https://cloud.google.com/source-repositories/)
 - [Container Builder](https://cloud.google.com/container-builder/)
 - [Container Registry (GCR)](https://cloud.google.com/container-registry/)
@@ -139,14 +199,18 @@
 - [Cloud Endpoints gRPC Transcoding](https://cloud.google.com/endpoints/docs/grpc/transcoding)
 - [Apigee API Platform](https://cloud.google.com/apigee-api-management/)
 - [Test Lab for Android](https://firebase.google.com/docs/test-lab/)
+
 ### GCP Solutions
+
 - [Project Treehouse](http://gcp.solutions/)
 - [API Hosting](http://gcp.solutions/diagram/API%20Hosting)
 - [Jenkins on Kubernetes](http://gcp.solutions/diagram/Jenkins%20on%20k8s)
 - [Log Processing](http://gcp.solutions/diagram/Log%20Processing)
 - [Live Streaming](http://gcp.solutions/diagram/Live%20Streaming)
 - [Shopping Cart Analysis](http://gcp.solutions/diagram/Shopping%20Cart%20Analysis)
+
 ### Learning GCP
+
 - [Main Documentation](https://cloud.google.com/docs/)
 - [Sample Architectures](http://gcp.solutions/)
 - [YouTube Channel](https://www.youtube.com/user/googlecloudplatform)
@@ -157,9 +221,13 @@
 - [Qwiklabs](https://google.qwiklabs.com/)
 - [GCP Slack](https://gcp-slack.appspot.com/)
 - [Google Certified Professional Cloud Architect](https://cloud.google.com/certification/cloud-architect)
+
 ### gsutil
+
 - [Bucket Locations](https://cloud.google.com/storage/docs/bucket-locations)
+
 ### Rundown on gcloud
+
 - [Overview Doc for gcloud](https://cloud.google.com/sdk/gcloud/)
 - [Syntax of gcloud](https://cloud.google.com/sdk/gcloud/reference/)
 - [Properties in gcloud](https://cloud.google.com/sdk/docs/properties)
@@ -167,9 +235,13 @@
 - [Lab Commands List](https://raw.githubusercontent.com/ACloudGuru/gcp-cloud-engineer/master/compute-labs/connect-to-vm.txt)
 - [Filters in gcloud](https://cloud.google.com/sdk/gcloud/reference/topic/filters)
 - [Instance Metadata Reference](https://cloud.google.com/compute/docs/storing-retrieving-metadata)
+
 ### AcloudGuru Code Source
+
 - [Course Resources GitHub Link](https://github.com/ACloudGuru/gcp-cloud-engineer.git)
+
 ### -Rearrange-
+
 - [Service Accounts (incl. Scopes)](https://cloud.google.com/compute/docs/access/service-accounts)
 - [GCE Instance Statuses](https://cloud.google.com/compute/docs/instances/checking-instance-status)
 - [Long-Polling for Metadata Changes](https://cloud.google.com/compute/docs/storing-retrieving-metadata#waitforchange)
@@ -184,7 +256,7 @@
 [...document.getElementsByClassName('course-viewer--sidebar-course'), ...document.getElementsByClassName('course-viewer--resource-list')]
   .map((n) => {
         return [...n.querySelectorAll('h3'), ...n.querySelectorAll('a')].map((n) => {
-          return (n.text ? '- [' : '### ') + (n.text||n.innerText || '').replace(/\s+/gm, ' ').trim() + (n.text ? '](' + n.href +')' : '') 
+          return (n.text ? '- [' : '### ') + (n.text||n.innerText || '').replace(/\s+/gm, ' ').trim() + (n.text ? '](' + n.href +')' : '')
         })
   })
   .reduce((acc, n) => acc.concat(n), [])
